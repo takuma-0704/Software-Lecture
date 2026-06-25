@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.recipe_name }} - レシピ検索{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <!-- 状態遷移図: レシピ表示 → 料理一覧表示（戻る） -->
+  {% if back == "recommend" %}
+  <a href="{{ url_for('recommend') }}" class="back-link">← おすすめへ戻る</a>
+  {% else %}
+  <a href="javascript:history.back()" class="back-link">← 一覧へ戻る</a>
+  {% endif %}
+  <h2>{{ recipe.recipe_name }}</h2>
+  <div class="recipe-meta">
+    <span class="badge">{{ recipe.food_type }}</span>
+    <span>⏱ {{ recipe.cook_time }}</span>
+    <span>📊 {{ recipe.difficulty }}</span>
+  </div>
+</div>
+
+<div class="detail-grid">
+  <!-- 食材一覧（ユースケース図: 追加食材を見る） -->
+  <div class="card">
+    <h3>🥬 使用食材</h3>
+    <ul class="ingredient-list">
+      {% for ing in ingredients %}
+      <li>
+        <span class="ing-name">{{ ing.ingredient_name }}</span>
+        <span class="ing-amount">{{ ing.amount }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- 作り方（ユースケース図: 簡単なレシピを見る） -->
+  <div class="card">
+    <h3>👨‍🍳 作り方</h3>
+    <ol class="step-list">
+      {% for step in recipe.steps %}
+      <li>{{ step.description }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+{% endblock %}

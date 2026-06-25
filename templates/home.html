@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}ホーム - レシピ検索{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>何を作りますか？</h1>
+  <p class="hero-sub">食材やジャンルを入力してレシピを探しましょう</p>
+</div>
+
+<!-- 検索フォーム（シーケンス図 step1: 食材・ジャンル入力） -->
+<div class="card search-card">
+  <form action="{{ url_for('search') }}" method="get">
+    <div class="form-group">
+      <label for="ingredient">使いたい食材</label>
+      <input type="text" id="ingredient" name="ingredient"
+             placeholder="例：鶏肉、豆腐、卵">
+    </div>
+    <div class="form-group">
+      <label for="food_type">料理ジャンル</label>
+      <select id="food_type" name="food_type">
+        <option value="">すべて</option>
+        <option value="和食">和食</option>
+        <option value="洋食">洋食</option>
+        <option value="中華">中華</option>
+        <option value="イタリアン">イタリアン</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-primary">🔍 検索する</button>
+  </form>
+</div>
+
+<!-- おすすめバナー（ユースケース図: 今日のおすすめ料理を見る） -->
+<a href="{{ url_for('recommend') }}" class="recommend-banner">
+  <span class="banner-icon">⭐</span>
+  <div>
+    <strong>今日のおすすめ料理</strong>
+    <p>本日のおすすめレシピをチェック</p>
+  </div>
+  <span class="banner-arrow">›</span>
+</a>
+{% endblock %}

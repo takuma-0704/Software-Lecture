@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}今日のおすすめ - レシピ検索{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <a href="{{ url_for('home') }}" class="back-link">← ホームへ戻る</a>
+  <h2>⭐ 今日のおすすめ料理</h2>
+  {% if rec %}
+  <p class="search-summary">{{ rec.date }} のおすすめ</p>
+  {% endif %}
+</div>
+
+{% if rec %}
+<!-- おすすめシーケンス図: step8 今日のおすすめを表示 -->
+<div class="recipe-list">
+  {% for recipe in rec.recipes %}
+  <a href="{{ url_for('recipe_detail', recipe_id=recipe.recipe_id, back='recommend') }}"
+     class="recipe-card featured">
+    <div class="recipe-card-body">
+      <h3>{{ recipe.recipe_name }}</h3>
+      <div class="recipe-meta">
+        <span class="badge">{{ recipe.food_type }}</span>
+        <span>⏱ {{ recipe.cook_time }}</span>
+        <span>📊 {{ recipe.difficulty }}</span>
+      </div>
+    </div>
+    <span class="card-arrow">›</span>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-error">
+  <span>⚠</span>
+  <p>本日のおすすめはまだ設定されていません。</p>
+</div>
+{% endif %}
+{% endblock %}
