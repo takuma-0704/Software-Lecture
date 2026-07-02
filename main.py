@@ -5,7 +5,7 @@ main.py - Flaskアプリのエントリーポイント
 起動方法: python main.py
 """
 from flask import Flask, render_template, request, redirect, url_for
-from database import RecipeDB
+from data_recipes import RecipeDB
 from recipe_service import RecipeService
 from controllers import RecipeController, RecommendationController
 
@@ -23,7 +23,9 @@ recommend_ctrl = RecommendationController(service)
 # ---------------------------------------------------------------
 @app.route("/")
 def home():
-    return render_template("home.html")
+    # プルダウン用のおすすめ食材を取得して渡す
+    featured = db.get_featured_ingredients()
+    return render_template("home.html", featured_ingredients=featured)
 
 
 # ---------------------------------------------------------------
@@ -76,6 +78,15 @@ def recommend():
     rec = recommend_ctrl.get_recommendation()
     return render_template("recommend.html", rec=rec)
 
+# ---------------------------------------------------------------
+# 食材一覧ページ（★ここに新しく左寄せで追加します）
+# ---------------------------------------------------------------
+@app.route("/ingredients")
+def ingredients_list():
+    all_ingredients = db.get_all_unique_ingredients()
+    return render_template("ingredients.html", ingredients=all_ingredients)
 
+
+# ★アプリの起動処理は一番最後に置きます
 if __name__ == "__main__":
     app.run(debug=True)

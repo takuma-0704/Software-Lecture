@@ -7,6 +7,16 @@
   <p class="hero-sub">食材やジャンルを入力してレシピを探しましょう</p>
 </div>
 
+<!-- おすすめバナー（ユースケース図: 今日のおすすめ料理を見る） -->
+<a href="{{ url_for('recommend') }}" class="recommend-banner">
+  <span class="banner-icon">⭐</span>
+  <div>
+    <strong>今日のおすすめ料理</strong>
+    <p>本日のおすすめレシピをチェック</p>
+  </div>
+  <span class="banner-arrow">›</span>
+</a>
+
 <!-- 検索フォーム（シーケンス図 step1: 食材・ジャンル入力） -->
 <div class="card search-card">
   <form action="{{ url_for('search') }}" method="get">
@@ -23,19 +33,28 @@
         <option value="洋食">洋食</option>
         <option value="中華">中華</option>
         <option value="イタリアン">イタリアン</option>
+        <option value="カレー">カレー</option>
+        <option value="麺類">麺類</option>
+        <option value="丼・ご飯もの">丼・ご飯もの</option>
+        <option value="鍋料理">鍋料理</option>
       </select>
     </div>
     <button type="submit" class="btn-primary">🔍 検索する</button>
   </form>
 </div>
 
-<!-- おすすめバナー（ユースケース図: 今日のおすすめ料理を見る） -->
-<a href="{{ url_for('recommend') }}" class="recommend-banner">
-  <span class="banner-icon">⭐</span>
-  <div>
-    <strong>今日のおすすめ料理</strong>
-    <p>本日のおすすめレシピをチェック</p>
-  </div>
-  <span class="banner-arrow">›</span>
-</a>
+<p><a href="{{ url_for('ingredients_list') }}">👉 全ての食材一覧から探す（あいうえお順）</a></p>
+
+
+<div class="form-group">
+    <label for="featured_ing">おすすめの食材から選ぶ：</label>
+    <select id="featured_ing" onchange="document.getElementById('ingredient_input').value=this.value">
+        <option value="">-- 食材を選択 --</option>
+        {% for ing in featured_ingredients %}
+            <option value="{{ ing }}">{{ ing }}</option>
+        {% endfor %}
+    </select>
+</div>
+
 {% endblock %}
+

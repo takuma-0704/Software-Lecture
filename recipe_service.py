@@ -3,7 +3,7 @@ recipe_service.py - クラス図の RecipeService に相当するサービス層
 シーケンス図の Service レイヤーを担う
 """
 from models import Recipe, Ingredient, DailyRecommendation
-from database import RecipeDB
+from data_recipes import RecipeDB
 
 
 class RecipeService:

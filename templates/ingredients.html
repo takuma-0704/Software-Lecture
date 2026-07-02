@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>食材一覧</title>
+</head>
+<body>
+    <h1>食材一覧（あいうえお順）</h1>
+    <p><a href="{{ url_for('home') }}">ホームに戻る</a></p>
+    <hr>
+
+    <ul>
+    {% for ing in ingredients %}
+        <li>
+            <a href="{{ url_for('search', ingredient=ing) }}">{{ ing }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
