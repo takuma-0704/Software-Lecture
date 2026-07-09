@@ -104,4 +104,4 @@ def ingredients_list():
 
 # ★アプリの起動処理は一番最後に置きます
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
