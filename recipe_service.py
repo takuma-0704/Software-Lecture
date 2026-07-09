@@ -11,9 +11,9 @@ class RecipeService:
     def __init__(self, db: RecipeDB):
         self._db = db
 
-    def search_recipe(self, ingredient: str = "", food_type: str = "") -> list[Recipe]:
-        """食材・ジャンルでレシピを検索する（シーケンス図 step4-6）"""
-        results = self._db.find_recipes_by_condition(ingredient, food_type)
+    def search_recipe(self, ingredient: str = "", food_type: str = "", recipe_name: str = "") -> list[Recipe]:
+        """食材・ジャンル・料理名でレシピを検索する（シーケンス図 step4-6）"""
+        results = self._db.find_recipes_by_condition(ingredient, food_type, recipe_name)
         return results[:5]
 
     def get_recipe_detail(self, recipe_id: int) -> Recipe | None:

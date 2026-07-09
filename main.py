@@ -35,9 +35,10 @@ def home():
 def search():
     ingredient = request.args.get("ingredient", "").strip()
     food_type = request.args.get("food_type", "").strip()
+    recipe_name = request.args.get("recipe_name", "").strip()
 
     # 状態遷移: 食材入力中 → 検索中 → 料理一覧表示 or 検索失敗
-    recipes = recipe_ctrl.search_recipes(ingredient, food_type)
+    recipes = recipe_ctrl.search_recipes(ingredient, food_type, recipe_name)
     no_results = len(recipes) == 0
 
     return render_template(
@@ -45,6 +46,7 @@ def search():
         recipes=recipes,
         ingredient=ingredient,
         food_type=food_type,
+        recipe_name=recipe_name,
         no_results=no_results,
     )
 

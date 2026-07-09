@@ -997,22 +997,53 @@ class RecipeDB:
         # 全レシピデータを読み込んで保持する
         self._recipes = get_all_recipes()
 
-    def find_recipes_by_condition(self, ingredient: str = "", food_type: str = "") -> list[Recipe]:
-        """食材名と料理ジャンルでレシピを検索する"""
+    @staticmethod
+    def _ingredient_matches(term: str, ing_name: str) -> bool:
+        """食材名の部分一致判定。「鶏肉」のような一般名でも
+        「鶏もも肉」「鶏むね肉」のような表記にヒットするようにする"""
+        if term in ing_name:
+            return True
+        # 「〇〇肉」で終わる検索語は、末尾の「肉」を除いた語でも判定する
+        if term.endswith("肉") and len(term) > 1:
+            base = term[:-1]
+            if base and base in ing_name:
+                return True
+        return False
+
+    @staticmethod
+    def _split_ingredient_terms(ingredient: str) -> list[str]:
+        """「鶏肉、豚肉」「鶏肉,豚肉」のような複数食材の入力を分割する"""
+        import re
+        terms = re.split(r"[、,，\s]+", ingredient)
+        return [t.strip() for t in terms if t.strip()]
+
+    def find_recipes_by_condition(
+        self, ingredient: str = "", food_type: str = "", recipe_name: str = ""
+    ) -> list[Recipe]:
+        """料理名・食材名・料理ジャンルでレシピを検索する（それぞれ独立した条件として扱う）
+        食材は「、」「,」区切りで複数指定でき、指定した食材を全て使っているレシピのみヒットする（AND条件）"""
+        ingredient_terms = self._split_ingredient_terms(ingredient)
+
         results = []
         for recipe in self._recipes:
             # ジャンルの条件チェック（一致するか、または条件が空か）
             match_type = (food_type == "" or recipe.food_type == food_type)
-            
-            # 食材の条件チェック（使用食材に含まれているか、または条件が空か）
-            match_ing = (ingredient == "")
-            if ingredient != "":
-                for ing in recipe.ingredients:
-                    if ingredient in ing.ingredient_name:
-                        match_ing = True
-                        break
-            
-            if match_type and match_ing:
+
+            # 料理名の条件チェック（部分一致、または条件が空か）
+            match_name = (recipe_name == "" or recipe_name in recipe.recipe_name)
+
+            # 食材の条件チェック（指定した食材を全て使っているか、または条件が空か）
+            match_ing = True
+            for term in ingredient_terms:
+                term_found = any(
+                    self._ingredient_matches(term, ing.ingredient_name)
+                    for ing in recipe.ingredients
+                )
+                if not term_found:
+                    match_ing = False
+                    break
+
+            if match_type and match_name and match_ing:
                 results.append(recipe)
         return results
 

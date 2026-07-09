@@ -11,9 +11,9 @@ class RecipeController:
     def __init__(self, service: RecipeService):
         self._service = service
 
-    def search_recipes(self, ingredient: str, food_type: str) -> list[Recipe]:
-        """食材・ジャンルでレシピを検索して返す"""
-        return self._service.search_recipe(ingredient, food_type)
+    def search_recipes(self, ingredient: str, food_type: str, recipe_name: str = "") -> list[Recipe]:
+        """食材・ジャンル・料理名でレシピを検索して返す"""
+        return self._service.search_recipe(ingredient, food_type, recipe_name)
 
     def get_recipe(self, recipe_id: int) -> Recipe | None:
         """レシピIDで詳細を取得する"""

@@ -5,8 +5,9 @@
 <div class="page-header">
   <a href="{{ url_for('home') }}" class="back-link">← ホームへ戻る</a>
   <h2>検索結果</h2>
-  {% if ingredient or food_type %}
+  {% if ingredient or food_type or recipe_name %}
   <p class="search-summary">
+    {% if recipe_name %}料理名：{{ recipe_name }}　{% endif %}
     {% if ingredient %}食材：{{ ingredient }}　{% endif %}
     {% if food_type %}ジャンル：{{ food_type }}{% endif %}
   </p>

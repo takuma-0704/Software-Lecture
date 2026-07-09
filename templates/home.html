@@ -21,9 +21,14 @@
 <div class="card search-card">
   <form action="{{ url_for('search') }}" method="get">
     <div class="form-group">
+      <label for="recipe_name">料理名で検索</label>
+      <input type="text" id="recipe_name" name="recipe_name"
+             placeholder="例：唐揚げ、カレー">
+    </div>
+    <div class="form-group">
       <label for="ingredient">使いたい食材</label>
       <input type="text" id="ingredient" name="ingredient"
-             placeholder="例：鶏肉、豆腐、卵">
+             placeholder="例：鶏肉、豆腐、卵（複数指定OK）">
     </div>
     <div class="form-group">
       <label for="food_type">料理ジャンル</label>
@@ -43,6 +48,9 @@
   </form>
 </div>
 
+<p><a href="{{ url_for('ingredients_list') }}">👉 全ての食材一覧から探す（あいうえお順）</a></p>
+
+
 <div class="form-group">
     <label for="featured_ing">おすすめの食材から選ぶ：</label>
     <select id="featured_ing" onchange="document.getElementById('ingredient').value=this.value">
@@ -52,9 +60,6 @@
         {% endfor %}
     </select>
 </div>
-
-<p><a href="{{ url_for('ingredients_list') }}">👉 全ての食材一覧から探す（あいうえお順）</a></p>
-
 
 {% endblock %}
 
