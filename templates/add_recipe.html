@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}レシピを追加 - レシピ検索{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <a href="{{ url_for('home') }}" class="back-link">← ホームへ戻る</a>
+  <h2>📝 レシピを追加</h2>
+  <p class="search-summary">自分で作ったレシピを投稿できます</p>
+</div>
+
+<div class="card search-card">
+  <form action="{{ url_for('add_recipe') }}" method="post">
+    <div class="form-group">
+      <label for="recipe_name">料理名</label>
+      <input type="text" id="recipe_name" name="recipe_name" required
+             placeholder="例：鶏肉の照り焼き">
+    </div>
+
+    <div class="form-group">
+      <label for="food_type">料理ジャンル</label>
+      <select id="food_type" name="food_type" required>
+        <option value="">選択してください</option>
+        <option value="和食">和食</option>
+        <option value="洋食">洋食</option>
+        <option value="中華">中華</option>
+        <option value="イタリアン">イタリアン</option>
+        <option value="カレー">カレー</option>
+        <option value="麺類">麺類</option>
+        <option value="丼・ご飯もの">丼・ご飯もの</option>
+        <option value="鍋料理">鍋料理</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="cook_time">調理時間</label>
+      <input type="text" id="cook_time" name="cook_time" placeholder="例：20分">
+    </div>
+
+    <div class="form-group">
+      <label for="difficulty">難易度</label>
+      <select id="difficulty" name="difficulty">
+        <option value="簡単">簡単</option>
+        <option value="普通">普通</option>
+        <option value="難しい">難しい</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="ingredients">使用食材（1行に1つ、「食材名,分量」の形式）</label>
+      <textarea id="ingredients" name="ingredients" rows="6"
+        placeholder="鶏もも肉,300g&#10;醤油,大さじ3&#10;みりん,大さじ2"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="steps">作り方（1行に1手順）</label>
+      <textarea id="steps" name="steps" rows="6"
+        placeholder="鶏もも肉を一口大に切る&#10;タレを合わせて絡める&#10;フライパンで焼いて完成"></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary">🍳 レシピを投稿する</button>
+  </form>
+</div>
+{% endblock %}

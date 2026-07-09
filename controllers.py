@@ -23,6 +23,17 @@ class RecipeController:
         """使用食材一覧を取得する（ユースケース図「追加食材を見る」）"""
         return self._service.recommend_ingredient(recipe_id)
 
+    def add_recipe(self, form) -> Recipe:
+        """フォームから送られてきた内容で新しいレシピを作成する"""
+        return self._service.add_recipe(
+            recipe_name=form.get("recipe_name", ""),
+            food_type=form.get("food_type", ""),
+            cook_time=form.get("cook_time", ""),
+            difficulty=form.get("difficulty", ""),
+            ingredients_text=form.get("ingredients", ""),
+            steps_text=form.get("steps", ""),
+        )
+
 
 class RecommendationController:
     """今日のおすすめフローを制御する（おすすめシーケンス図）"""

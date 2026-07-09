@@ -79,6 +79,19 @@ def recommend():
     return render_template("recommend.html", rec=rec)
 
 # ---------------------------------------------------------------
+# レシピを追加（自分でレシピを投稿する機能）
+# ---------------------------------------------------------------
+@app.route("/add_recipe", methods=["GET", "POST"])
+def add_recipe():
+    if request.method == "POST":
+        new_recipe = recipe_ctrl.add_recipe(request.form)
+        # 追加が終わったら、そのレシピの詳細ページへ遷移
+        return redirect(url_for("recipe_detail", recipe_id=new_recipe.recipe_id))
+
+    return render_template("add_recipe.html")
+
+
+# ---------------------------------------------------------------
 # 食材一覧ページ（★ここに新しく左寄せで追加します）
 # ---------------------------------------------------------------
 @app.route("/ingredients")

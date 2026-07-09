@@ -28,3 +28,58 @@ class RecipeService:
         """使用食材一覧を返す（ユースケース図「追加食材を見る」）"""
         recipe = self._db.find_recipe_by_id(recipe_id)
         return recipe.ingredients if recipe else []
+
+    def add_recipe(
+        self,
+        recipe_name: str,
+        food_type: str,
+        cook_time: str,
+        difficulty: str,
+        ingredients_text: str,
+        steps_text: str,
+    ) -> Recipe:
+        """ユーザーが入力したフォームの内容から新しいレシピを作って保存する"""
+        new_id = self._db.get_next_recipe_id()
+
+        # 食材欄: 1行につき「食材名,分量」の形式を想定（分量は省略可）
+        ingredients: list[Ingredient] = []
+        for i, line in enumerate(ingredients_text.splitlines()):
+            line = line.strip()
+            if not line:
+                continue
+            if "," in line:
+                name, amount = line.split(",", 1)
+            elif "、" in line:
+                name, amount = line.split("、", 1)
+            else:
+                name, amount = line, ""
+            ingredients.append(
+                Ingredient(
+                    ingredient_id=i * 1000 + new_id,
+                    ingredient_name=name.strip(),
+                    amount=amount.strip(),
+                )
+            )
+
+        # 手順欄: 1行につき1手順として扱う
+        steps = []
+        step_no = 1
+        for line in steps_text.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            from models import RecipeStep
+            steps.append(RecipeStep(step_no=step_no, description=line))
+            step_no += 1
+
+        recipe = Recipe(
+            recipe_id=new_id,
+            recipe_name=recipe_name.strip(),
+            food_type=food_type.strip(),
+            cook_time=cook_time.strip(),
+            difficulty=difficulty.strip(),
+            ingredients=ingredients,
+            steps=steps,
+        )
+        self._db.add_recipe(recipe)
+        return recipe

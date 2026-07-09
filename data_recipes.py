@@ -1,6 +1,7 @@
 """
 data_recipes.py - 全レシピデータ（300品以上）
 """
+from datetime import date
 from models import Recipe, Ingredient, RecipeStep
 
 
@@ -1047,3 +1048,13 @@ class RecipeDB:
         """プルダウンに表示する「おすすめの食材」のリスト"""
         # よく使われる代表的な食材をピックアップ
         return ["鶏肉", "豚肉", "牛肉", "玉ねぎ", "じゃがいも", "にんじん", "キャベツ", "トマト"]
+
+    def add_recipe(self, recipe: Recipe) -> None:
+        """新しいレシピを追加する（ユーザーが自分でレシピを投稿する機能）"""
+        self._recipes.append(recipe)
+
+    def get_next_recipe_id(self) -> int:
+        """新しいレシピに割り当てるIDを生成する（既存の最大ID+1）"""
+        if not self._recipes:
+            return 1
+        return max(r.recipe_id for r in self._recipes) + 1

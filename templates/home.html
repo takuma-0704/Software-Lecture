@@ -43,18 +43,18 @@
   </form>
 </div>
 
-<p><a href="{{ url_for('ingredients_list') }}">👉 全ての食材一覧から探す（あいうえお順）</a></p>
-
-
 <div class="form-group">
     <label for="featured_ing">おすすめの食材から選ぶ：</label>
-    <select id="featured_ing" onchange="document.getElementById('ingredient_input').value=this.value">
+    <select id="featured_ing" onchange="document.getElementById('ingredient').value=this.value">
         <option value="">-- 食材を選択 --</option>
         {% for ing in featured_ingredients %}
             <option value="{{ ing }}">{{ ing }}</option>
         {% endfor %}
     </select>
 </div>
+
+<p><a href="{{ url_for('ingredients_list') }}">👉 全ての食材一覧から探す（あいうえお順）</a></p>
+
 
 {% endblock %}
 
