@@ -102,6 +102,8 @@ def ingredients_list():
     return render_template("ingredients.html", ingredients=all_ingredients)
 
 
-# ★アプリの起動処理は一番最後に置きます
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
